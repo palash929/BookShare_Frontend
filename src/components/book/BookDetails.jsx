@@ -24,7 +24,7 @@ export default function BookDetails() {
   useEffect(() => {
     const fetchBook = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/books/${id}`);
+        const res = await axios.get(`https://bookshare-backend-ca7c.onrender.com/api/books/${id}`);
         setBook(res.data);
       } catch (err) {
         toast.error("Failed to load book details");
@@ -40,7 +40,7 @@ export default function BookDetails() {
     const checkWishlist = async () => {
       try {
         const token = await getToken();
-        const res = await axios.get("http://localhost:5000/api/wishlist", {
+        const res = await axios.get("https://bookshare-backend-ca7c.onrender.com/api/wishlist", {
           headers: { Authorization: `Bearer ${token}` },
         });
         const wishlist = res.data.wishlist || [];
@@ -58,7 +58,7 @@ export default function BookDetails() {
     try {
       const token = await getToken();
       const res = await axios.post(
-        "http://localhost:5000/api/wishlist/toggle",
+        "https://bookshare-backend-ca7c.onrender.com/api/wishlist/toggle",
         { bookId: id },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -81,7 +81,7 @@ export default function BookDetails() {
     try {
       const token = await getToken();
       const res = await axios.post(
-        "http://localhost:5000/api/payment/create-order",
+        "https://bookshare-backend-ca7c.onrender.com/api/payment/create-order",
         { amount: book.price },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -96,7 +96,7 @@ export default function BookDetails() {
         order_id: order.id,
         handler: async (response) => {
           const verify = await axios.post(
-            "http://localhost:5000/api/payment/verify",
+            "https://bookshare-backend-ca7c.onrender.com/api/payment/verify",
             response,
             { headers: { Authorization: `Bearer ${token}` } }
           );
@@ -132,7 +132,7 @@ export default function BookDetails() {
     );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-blue-50 p-8 flex flex-col items-center">
+    <div className="min-h-screen bg-linear-to-br from-yellow-50 to-blue-50 p-8 flex flex-col items-center">
       <Toaster position="top-center" />
 
       <button
