@@ -56,7 +56,7 @@ export default function WishlistPage() {
   
       
       const { data } = await axios.post(
-        "http://localhost:5000/api/payment/create-order",
+        "https://bookshare-backend-ca7c.onrender.com/api/payment/create-order",
         { amount: book.price, bookId: book._id },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -77,7 +77,7 @@ export default function WishlistPage() {
         handler: async function (response) {
           try {
             const verifyRes = await axios.post(
-              "http://localhost:5000/api/payment/verify-payment",
+              "https://bookshare-backend-ca7c.onrender.com/api/payment/verify-payment",
               {
                 ...response,
                 bookId: book._id,
@@ -116,7 +116,7 @@ export default function WishlistPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-rose-100 p-6 sm:p-10">
+    <div className="min-h-screen bg-linear-to-br from-pink-50 to-rose-100 p-6 sm:p-10">
       <Toaster position="top-center" />
       <div className="flex items-center gap-3 mb-6">
         <button

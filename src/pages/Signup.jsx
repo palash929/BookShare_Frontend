@@ -28,27 +28,33 @@ const Signup = () => {
         form.password
       );
 
+      const user = userData.user; // ✅ define user
+
       // Step 2: Update Firebase display name
-      await updateProfile(userData.user, { displayName: form.name });
+      await updateProfile(user, { displayName: form.name });
 
       // Step 3: Get Firebase token
-     const token = await user.getIdToken();
-await axios.post(
-  "http://localhost:5000/api/users/",
-  {
-    name: user.displayName,
-    email: user.email,   // ✅ add this line
-    photoURL: user.photoURL,
-    location: { coordinates: [latitude, longitude] },
-  },
-  {
-    headers: { Authorization: `Bearer ${token}` },
-  }
-);
+      const token = await user.getIdToken(); // ✅ user now defined
 
+      // TEMP: dummy location to avoid undefined latitude/longitude
+      const latitude = 0; // ✅ avoid ReferenceError
+      const longitude = 0;
+
+      const res = await axios.post(
+        "https://bookshare-backend-ca7c.onrender.com/api/users/",
+        {
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          location: { coordinates: [latitude, longitude] },
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+      localStorage.setItem("user", JSON.stringify(res.data.user)); // ✅ res now defined
 
       alert("Signup successful!");
       navigate("/dashboard");
@@ -65,12 +71,25 @@ await axios.post(
     setLoading(true);
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      const token = await result.user.getIdToken();
+      const user = result.user; // ✅ easier to reuse
+
+      const token = await user.getIdToken();
+
+      // reuse same dummy location structure
+      const latitude = 0;
+      const longitude = 0;
 
       const res = await axios.post(
-        "http://localhost:5000/api/users/",
-        {},
-        { headers: { Authorization: `Bearer ${token}` } }
+        "https://bookshare-backend-ca7c.onrender.com/api/users/",
+        {
+          name: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+          location: { coordinates: [latitude, longitude] },
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
 
       localStorage.setItem("token", token);
@@ -79,7 +98,7 @@ await axios.post(
       alert("Google signup successful!");
       navigate("/dashboard");
     } catch (err) {
-      console.error("Google Signup Error:", err.message);
+      console.error("Google Signup Error:", err.code, err.message);
       alert("Google signup failed. Try again!");
     } finally {
       setLoading(false);

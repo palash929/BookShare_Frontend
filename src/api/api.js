@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "https://bookshare-backend-ca7c.onrender.com/api",
 });
 
 // Automatically attach Firebase token

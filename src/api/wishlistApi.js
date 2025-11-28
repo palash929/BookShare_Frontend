@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getAuth } from "firebase/auth";
 
-const API_URL = "http://localhost:5000/api/wishlist";
+const API_URL = "https://bookshare-backend-ca7c.onrender.com/api/wishlist";
 
 const getFreshToken = async () => {
   const auth = getAuth();
